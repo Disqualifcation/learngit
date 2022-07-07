@@ -1,3 +1,8 @@
+#用opencv内特有的追踪算法，读取视频
+#通过第一帧框选追踪对象，边界框初始化追踪器，通过跟踪对象，实时绘制矩形块
+#在视频的左上角显示追踪过程中的相关信息
+
+
 import cv2
 import sys
 
@@ -54,7 +59,7 @@ if __name__ == '__main__':
         # 计算执行时间
         timer = cv2.getTickCount()
 
-        # 追踪结果
+        # 更新追踪器
         ok, bbox = tracker.update(frame)
 
 
@@ -67,10 +72,10 @@ if __name__ == '__main__':
             p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
             cv2.rectangle(frame, p1, p2, (255, 0, 0), 2, 1)
         else:
-            #如果无边框输出则追踪器完成追踪
+            #跟踪失败
             cv2.putText(frame, "Tracking failure detected", (100, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
 
-        #在视频中显示相应文本
+        #在视频中显示追踪器类型
         cv2.putText(frame, tracker_type + " Tracker", (100, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2)
 
 
