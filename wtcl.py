@@ -9,25 +9,25 @@ import cv2
 
 #定义两个变量，width用于将尺寸转换
 pix = None
-width=2
+width = 2
 #读取图像，转换图像为灰度图像，并高斯模糊
-img = cv2.imread("20201015152437717.png")
+img = cv2.imread("wtcl.png")
 cv2.imshow("img",img)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-r=cv2.GaussianBlur(gray,(7,7),0)
+r = cv2.GaussianBlur(gray, (7, 7), 0)
 
 #边缘检测
 edged = cv2.Canny(r, 50, 100)
-kernel = np.ones((5,5),dtype=np.uint8)
-edged = cv2.morphologyEx(edged,cv2.MORPH_CLOSE,kernel)
+k = np.ones((5,5),dtype=np.uint8)
+edged = cv2.morphologyEx(edged,cv2.MORPH_CLOSE,k)
 
 #轮廓查找
-refCnts, hierarchy = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+ref_Cnts, hierarchy = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 #计算最小外接矩形
-for (i, c) in enumerate(refCnts):
+for (i, c) in enumerate(ref_Cnts):
     #将大小过小的轮廓舍弃
-    if cv2.contourArea(c) <200:
+    if cv2.contourArea(c) <300:
         continue
     rect = cv2.minAreaRect(c)
     points = cv2.boxPoints(rect)
